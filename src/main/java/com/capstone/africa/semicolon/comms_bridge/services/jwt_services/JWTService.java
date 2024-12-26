@@ -1,11 +1,10 @@
-package com.capstone.africa.semicolon.comms_bridge.services;
+package com.capstone.africa.semicolon.comms_bridge.services.jwt_services;
 
 import com.capstone.africa.semicolon.comms_bridge.repositories.UserRepository;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import io.jsonwebtoken.Claims;
 import org.springframework.stereotype.Service;
@@ -24,8 +23,6 @@ import java.util.function.Function;
 @AllArgsConstructor
 
 public class JWTService {
-
-
     UserRepository userRepository;
 
     private String secretkey = "";

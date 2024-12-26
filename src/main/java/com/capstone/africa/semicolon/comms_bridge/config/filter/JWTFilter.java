@@ -1,7 +1,7 @@
 package com.capstone.africa.semicolon.comms_bridge.config.filter;
 
 
-import com.capstone.africa.semicolon.comms_bridge.services.JWTService;
+import com.capstone.africa.semicolon.comms_bridge.services.jwt_services.JWTService;
 import com.capstone.africa.semicolon.comms_bridge.services.jwt_services.MyUserDetailService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
