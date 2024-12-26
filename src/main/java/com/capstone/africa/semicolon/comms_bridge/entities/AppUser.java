@@ -1,10 +1,7 @@
 package com.capstone.africa.semicolon.comms_bridge.entities;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,4 +19,6 @@ public class AppUser {
     private String address;
     private String profilePicture;
     private String preferredLanguage;
+    @Enumerated(EnumType.STRING)
+    private UserRole role;
 }
