@@ -1,0 +1,13 @@
+services:
+  app:
+    build: .
+    ports:
+      - "8082:8080"
+    restart: always
+    environment:
+      - DATABASE_URL=jdbc:postgresql://ep-morning-thunder-a4ow1lb3.us-east-1.aws.neon.tech:5432/neondb
+      - DB_USERNAME=neondb_owner
+      - DB_PASSWORD=xojFvd40fbOp
+
+
+
