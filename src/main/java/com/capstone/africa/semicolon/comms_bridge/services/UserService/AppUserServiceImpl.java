@@ -22,7 +22,6 @@ import java.util.List;
 
 
 @Service
-@AllArgsConstructor
 public class AppUserServiceImpl implements AppUserService{
 
     @Autowired
@@ -30,11 +29,11 @@ public class AppUserServiceImpl implements AppUserService{
 
     @Autowired
     private JWTService jwtService;
-
+    @Autowired
     private UserRepository userRepository;
-
+    @Autowired
     private ModelMapper modelMapper;
-
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
 
