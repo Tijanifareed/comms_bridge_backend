@@ -6,7 +6,6 @@ import lombok.Setter;
 @Setter
 @Getter
 public class RegisterUserResponse {
-    private String response;
-    private String appUserId;
-    private String email;
+    private String message;
+
 }
