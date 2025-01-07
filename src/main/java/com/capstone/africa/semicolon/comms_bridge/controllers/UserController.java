@@ -35,6 +35,7 @@ public class UserController {
     @PostMapping("login/existing/account")
     public ResponseEntity<?> loginAccount(@RequestBody LoginRequest request){
         try{
+            System.out.println(request.toString());
             LoginResponse response = userService.verifyUserWith(request);
             return new ResponseEntity<>(new ApiResponse(true, response),CREATED);
         }catch (RuntimeException exception){

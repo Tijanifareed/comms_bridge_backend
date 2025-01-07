@@ -9,6 +9,5 @@ import lombok.Setter;
 public class LoginResponse {
     private String Message;
     private String Token;
-    private String role;
     private String userName;
 }
