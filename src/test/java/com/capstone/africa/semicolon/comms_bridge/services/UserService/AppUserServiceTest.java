@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+
 @SpringBootTest
 class AppUserServiceTest {
     @Autowired
@@ -22,7 +22,7 @@ class AppUserServiceTest {
         RegisterUserResponse response = appUserService.register(request);
         assertThat(response).isNotNull();
         assertThat(appUserService.getAllUsers().size()).isEqualTo(1L);
-        assertThat(response.getResponse()).contains("Successfully Registered");
+        assertThat(response.getMessage()).contains("Successfully Registered");
     }
 
 }

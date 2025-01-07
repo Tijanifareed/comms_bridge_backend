@@ -9,13 +9,12 @@ import com.capstone.africa.semicolon.comms_bridge.exception.CommsBridgeException
 import com.capstone.africa.semicolon.comms_bridge.repositories.UserRepository;
 import com.capstone.africa.semicolon.comms_bridge.services.jwt_services.JWTService;
 
-import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,8 +32,7 @@ public class AppUserServiceImpl implements AppUserService{
     private UserRepository userRepository;
     @Autowired
     private ModelMapper modelMapper;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
 
 
     @Override
@@ -60,13 +58,15 @@ public class AppUserServiceImpl implements AppUserService{
     @Override
     public RegisterUserResponse register(RegisterUserRequest request) {
         validateUserEmail(request.getUserEmail());
-        passwordEncoder.encode(request.getPassword());
-        AppUser user = modelMapper.map(request, AppUser.class);
+        String encodedPassword = encoder.encode(request.getPassword());
+        AppUser user = new AppUser();
+        user.setUserEmail(request.getUserEmail());
+        user.setPassword(request.getPassword());
+        user.setUserName(request.getUserName());
+        user.setPhoneNumber(request.getPhoneNumber());
         userRepository.save(user);
-        RegisterUserResponse response = modelMapper.map(request, RegisterUserResponse.class);
-        response.setResponse("Successfully Registered");
-        response.setAppUserId(response.getAppUserId());
-        response.setEmail(response.getEmail());
+        RegisterUserResponse response = new RegisterUserResponse();
+        response.setMessage("Successfully Registered");
         return response;
     }
     private void validateUserEmail(String email){

@@ -8,7 +8,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class ApiResponse {
-    private Object data;
+    private Object datas;
     private boolean isSucessfull;
     public boolean isSucessfull() {
         return isSucessfull;
@@ -18,9 +18,9 @@ public class ApiResponse {
         isSucessfull = sucessfull;
     }
 
-    public ApiResponse(boolean isSucessfull, Object data) {
+    public ApiResponse(boolean isSucessfull, Object datas) {
         this.isSucessfull = isSucessfull;
-        this.data = data;
+        this.datas = datas;
     }
 }
 

@@ -39,7 +39,7 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("register", "loginPage", "create_adminAccount", "loginByAdmin")
+                        .requestMatchers("create/new/account", "loginPage", "create_adminAccount", "loginByAdmin")
                         .permitAll()
                         .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
@@ -68,8 +68,8 @@ public class SecurityConfig {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedOrigin("https://real-mart-by-freddie.vercel.app");  // Replace with your frontend origin
-        configuration.addAllowedOrigin("http://localhost:3000");
+        configuration.addAllowedOrigin("http://10.115.9.230:8080");  // Replace with your frontend origin
+        configuration.addAllowedOrigin("http://localhost:8080");
         configuration.addAllowedMethod("*");  // Allow all HTTP methods
         configuration.addAllowedHeader("*");  // Allow all headers
         configuration.setAllowCredentials(true);  // Enable if using cookies
