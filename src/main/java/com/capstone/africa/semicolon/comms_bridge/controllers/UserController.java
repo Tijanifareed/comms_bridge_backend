@@ -37,6 +37,7 @@ public class UserController {
         try{
             System.out.println(request.toString());
             LoginResponse response = userService.verifyUserWith(request);
+            System.out.println(response.getToken());
             return new ResponseEntity<>(new ApiResponse(true, response),CREATED);
         }catch (RuntimeException exception){
             return new ResponseEntity<>(new ApiResponse(false, exception.getMessage()),BAD_REQUEST);
