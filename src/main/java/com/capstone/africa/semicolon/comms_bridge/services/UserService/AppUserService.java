@@ -1,7 +1,9 @@
 package com.capstone.africa.semicolon.comms_bridge.services.UserService;
 
+import com.capstone.africa.semicolon.comms_bridge.dtos.requests.ForgetPasswordRequest;
 import com.capstone.africa.semicolon.comms_bridge.dtos.requests.LoginRequest;
 import com.capstone.africa.semicolon.comms_bridge.dtos.requests.RegisterUserRequest;
+import com.capstone.africa.semicolon.comms_bridge.dtos.responses.ForgetPasswordResponse;
 import com.capstone.africa.semicolon.comms_bridge.dtos.responses.LoginResponse;
 import com.capstone.africa.semicolon.comms_bridge.dtos.responses.RegisterUserResponse;
 import com.capstone.africa.semicolon.comms_bridge.entities.AppUser;
@@ -16,5 +18,7 @@ public interface AppUserService {
     RegisterUserResponse register(RegisterUserRequest request);
 
     List<AppUser> getAllUsers();
+
+    ForgetPasswordResponse resetPassword(ForgetPasswordRequest request);
 
 }
