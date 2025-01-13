@@ -8,9 +8,12 @@ import com.capstone.africa.semicolon.comms_bridge.entities.Transcription;
 import com.capstone.africa.semicolon.comms_bridge.repositories.TranscriptionRepository;
 import org.springframework.beans.factory.annotation.Value;
 import com.assemblyai.api.AssemblyAI;
+import org.springframework.stereotype.Service;
+
 import java.time.LocalDateTime;
 import java.util.concurrent.atomic.AtomicReference;
 
+@Service
 public class TranscriptionServiceImpl implements TranscriptionService {
     @Value("${assemblyai.api_key}")
     private String apiKey;
