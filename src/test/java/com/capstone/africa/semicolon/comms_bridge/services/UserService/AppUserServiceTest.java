@@ -26,7 +26,7 @@ class AppUserServiceTest {
     @Test
     public void testThatAppUserCanRegister(){
         RegisterUserRequest request = new RegisterUserRequest();
-        request.setUserEmail("test@email.com");
+        request.setUserEmail("test@email.coms");
         request.setPassword("password123");
         request.setUserName("testedUsername");
         request.setPhoneNumber("08133608698");
