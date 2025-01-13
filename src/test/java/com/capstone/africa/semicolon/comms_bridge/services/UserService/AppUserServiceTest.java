@@ -15,6 +15,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 class AppUserServiceTest {
 
+
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @BeforeEach
+    public void setUp(){
+        userRepository.deleteAll();
+    }
+
+
     @Autowired
     private AppUserService appUserService;
 
@@ -35,7 +46,7 @@ class AppUserServiceTest {
 
     private RegisterUserResponse registerUserRequest() {
         RegisterUserRequest request = new RegisterUserRequest();
-        request.setUserEmail("test@email.com");
+        request.setUserEmail("test@email.coms");
         request.setPassword("password123");
         request.setUserName("testedUsername");
         request.setPhoneNumber("08133608698");
