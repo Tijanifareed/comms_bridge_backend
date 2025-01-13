@@ -74,7 +74,7 @@ public class AppUserServiceImpl implements AppUserService{
         user.setUserName(request.getUserName());
         user.setPhoneNumber(request.getPhoneNumber());
         userRepository.save(user);
-        sendEmail(request.getUserEmail(),request.getUserName());
+        sendEmailForUserRegistration(request.getUserEmail(),request.getUserName());
         RegisterUserResponse response = new RegisterUserResponse();
         response.setMessage("Successfully Registered");
         return response;
@@ -93,7 +93,7 @@ public class AppUserServiceImpl implements AppUserService{
 
     @Value("$(CommsBridge)")
     private  String fromEmailId;
-    public void sendEmail(String userEmail, String name){
+    public void sendEmailForUserRegistration(String userEmail, String name){
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(fromEmailId);
         message.setTo(userEmail);
@@ -115,4 +115,18 @@ public class AppUserServiceImpl implements AppUserService{
                         """,name));
         mailSender.send(message);
     }
+
+   public void sendEmailForOtpCode(String userEmail, String code){
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom(fromEmailId);
+        message.setTo(userEmail);
+        message.setSubject("CommsBridge Password-Reset");
+        message.setText(String.format(
+                """
+                        Below is the Six-Digit code to reset your password
+                        %s
+                        If You did not request for this reset You can just ignore this 
+                        """, code));
+        mailSender.send(message);
+   }
 }

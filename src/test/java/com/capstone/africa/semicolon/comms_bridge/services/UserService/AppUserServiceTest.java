@@ -17,7 +17,7 @@ class AppUserServiceTest {
     private UserRepository userRepository;
 
     @BeforeEach
-    private void setUp(){
+    public void setUp(){
         userRepository.deleteAll();
     }
 
