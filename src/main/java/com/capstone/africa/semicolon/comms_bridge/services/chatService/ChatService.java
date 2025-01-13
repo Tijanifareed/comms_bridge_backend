@@ -24,8 +24,6 @@ public class ChatService {
 
 
     public GeminiResponse summarizeMessage(GeminiRequest request) throws IOException, InterruptedException {
-
-        // Prepare the request body with the input text
         System.out.println("request: " + request.getContent());
         String body = """
                 {
@@ -40,13 +38,9 @@ public class ChatService {
                     ]
                 }
                 """.formatted(request.getContent() + "summarize this like what is going on in this conversation");
-
-        // API key and endpoint
-
         String apiKey = aiApiKey;
         String apiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + apiKey;
 
-        // Create the HTTP request
         HttpRequest httpRequest = HttpRequest.newBuilder()
                 .uri(URI.create(apiUrl))
                 .header("Content-Type", "application/json")
