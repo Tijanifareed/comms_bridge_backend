@@ -11,6 +11,9 @@ import com.capstone.africa.semicolon.comms_bridge.services.jwt_services.JWTServi
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -26,6 +29,9 @@ public class AppUserServiceImpl implements AppUserService{
 
     @Autowired
     AuthenticationManager authmanager;
+
+    @Autowired
+    JavaMailSender mailSender;
 
     @Autowired
     private JWTService jwtService;
@@ -68,6 +74,7 @@ public class AppUserServiceImpl implements AppUserService{
         user.setUserName(request.getUserName());
         user.setPhoneNumber(request.getPhoneNumber());
         userRepository.save(user);
+        sendEmail(request.getUserEmail(),request.getUserName());
         RegisterUserResponse response = new RegisterUserResponse();
         response.setMessage("Successfully Registered");
         return response;
@@ -81,5 +88,31 @@ public class AppUserServiceImpl implements AppUserService{
     @Override
     public List<AppUser> getAllUsers() {
         return userRepository.findAll();
+    }
+
+
+    @Value("$(CommsBridge)")
+    private  String fromEmailId;
+    public void sendEmail(String userEmail, String name){
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom(fromEmailId);
+        message.setTo(userEmail);
+        message.setSubject("CommsBridge Account Verification");
+        message.setText(String.format(
+                """
+                        Hi %s,
+                                                
+                        Welcome to CommsBridge, where communication becomes more accessible and inclusive! We're thrilled to have you join our community.
+                                                
+                        With CommsBridge, you can seamlessly connect with your loved ones and the world around you. Whether it's through real-time transcription, sign language resources, or other features designed specifically for hearing-impaired individuals, we’re here to bridge the communication gap.
+                                                
+                        Our mission is to empower you with tools that make every conversation more meaningful and accessible. If you have any questions or need assistance, our support team is just a message away.
+                                                
+                        Thank you for choosing CommsBridge—we're excited to be part of your journey!
+                                                
+                        Warm regards, 
+                        The CommsBridge Team
+                        """,name));
+        mailSender.send(message);
     }
 }
