@@ -22,7 +22,7 @@ class AppUserServiceTest {
     private UserRepository appUserRepository;
 
     @BeforeEach
-    private void setUp(){
+    public void setUp(){
         appUserRepository.deleteAll();
     }
     @Test
@@ -49,7 +49,7 @@ class AppUserServiceTest {
         request.setEmail("test@email.com");
         ForgetPasswordResponse response = appUserService.resetPassword(request);
         assertThat(response).isNotNull();
-        assertThat(response.getMessage()).contains("Enter the code that has been sent to you");
+        assertThat(response.getMessage()).contains("Enter the six-digit code that has been sent to you");
         System.out.println(response.getCode());
         assertThat(response.getCode().length()).isEqualTo(6);
     }
