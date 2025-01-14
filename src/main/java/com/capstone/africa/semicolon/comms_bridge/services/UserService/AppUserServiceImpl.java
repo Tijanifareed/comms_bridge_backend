@@ -3,9 +3,11 @@ package com.capstone.africa.semicolon.comms_bridge.services.UserService;
 import com.capstone.africa.semicolon.comms_bridge.dtos.requests.ForgetPasswordRequest;
 import com.capstone.africa.semicolon.comms_bridge.dtos.requests.LoginRequest;
 import com.capstone.africa.semicolon.comms_bridge.dtos.requests.RegisterUserRequest;
+import com.capstone.africa.semicolon.comms_bridge.dtos.requests.UpdatePasswordRequest;
 import com.capstone.africa.semicolon.comms_bridge.dtos.responses.ForgetPasswordResponse;
 import com.capstone.africa.semicolon.comms_bridge.dtos.responses.LoginResponse;
 import com.capstone.africa.semicolon.comms_bridge.dtos.responses.RegisterUserResponse;
+import com.capstone.africa.semicolon.comms_bridge.dtos.responses.UpdatePasswordResponse;
 import com.capstone.africa.semicolon.comms_bridge.entities.AppUser;
 import com.capstone.africa.semicolon.comms_bridge.exception.CommsBridgeException;
 import com.capstone.africa.semicolon.comms_bridge.repositories.UserRepository;
@@ -39,7 +41,7 @@ public class AppUserServiceImpl implements AppUserService{
     private JWTService jwtService;
     @Autowired
     private UserRepository userRepository;
-    private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
+    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
 
 
     @Override
@@ -73,9 +75,10 @@ public class AppUserServiceImpl implements AppUserService{
         user.setPassword(encodedPassword);
         user.setUserName(request.getUserName());
         user.setPhoneNumber(request.getPhoneNumber());
-        userRepository.save(user);
+        AppUser savedUser = userRepository.save(user);
         sendEmailForUserRegistration(request.getUserEmail(),request.getUserName());
         RegisterUserResponse response = new RegisterUserResponse();
+        response.setUserId(savedUser.getId());
         response.setMessage("Successfully Registered");
         return response;
     }
@@ -103,11 +106,25 @@ public class AppUserServiceImpl implements AppUserService{
         return response;
     }
 
+    @Override
+    public UpdatePasswordResponse updatePassword(UpdatePasswordRequest request) {
+        AppUser appUser = findById(request.getId());
+        String encodedPassword = encoder.encode(request.getNewPassword());
+        appUser.setPassword(encodedPassword);
+        userRepository.save(appUser);
+        UpdatePasswordResponse response = new UpdatePasswordResponse();
+        response.setMessage("Password updated successfully");
+        return response;
+    }
+    private AppUser findById(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(()-> new CommsBridgeException("User not found"));
+    }
+
     private String generateCode(){
         Random random = new Random();
         return String.valueOf(random.nextInt(1000000));
     }
-
 
     @Value("$(CommsBridge)")
     private  String fromEmailId;
