@@ -1,7 +1,9 @@
 package com.capstone.africa.semicolon.comms_bridge.services.UserService;
 
+import com.capstone.africa.semicolon.comms_bridge.dtos.requests.ForgetPasswordRequest;
 import com.capstone.africa.semicolon.comms_bridge.dtos.requests.LoginRequest;
 import com.capstone.africa.semicolon.comms_bridge.dtos.requests.RegisterUserRequest;
+import com.capstone.africa.semicolon.comms_bridge.dtos.responses.ForgetPasswordResponse;
 import com.capstone.africa.semicolon.comms_bridge.dtos.responses.LoginResponse;
 import com.capstone.africa.semicolon.comms_bridge.dtos.responses.RegisterUserResponse;
 import com.capstone.africa.semicolon.comms_bridge.entities.AppUser;
@@ -9,7 +11,6 @@ import com.capstone.africa.semicolon.comms_bridge.exception.CommsBridgeException
 import com.capstone.africa.semicolon.comms_bridge.repositories.UserRepository;
 import com.capstone.africa.semicolon.comms_bridge.services.jwt_services.JWTService;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
@@ -22,6 +23,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Random;
 
 
 @Service
@@ -37,8 +39,6 @@ public class AppUserServiceImpl implements AppUserService{
     private JWTService jwtService;
     @Autowired
     private UserRepository userRepository;
-    @Autowired
-    private ModelMapper modelMapper;
     private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
 
 
@@ -91,6 +91,22 @@ public class AppUserServiceImpl implements AppUserService{
     }
 
 
+    @Override
+    public ForgetPasswordResponse resetPassword(ForgetPasswordRequest request) {
+        AppUser appUser = userRepository.findByUserEmail(request.getEmail());
+        if(appUser==null) throw new CommsBridgeException("User Does not exist");
+        ForgetPasswordResponse response = new ForgetPasswordResponse();
+        response.setMessage("Enter the code that has been sent to you");
+        response.setCode(generateCode());
+        return response;
+    }
+
+    private String generateCode(){
+        Random random = new Random();
+        return String.valueOf(random.nextInt(1000000));
+    }
+
+
     @Value("$(CommsBridge)")
     private  String fromEmailId;
     public void sendEmailForUserRegistration(String userEmail, String name){
@@ -129,4 +145,5 @@ public class AppUserServiceImpl implements AppUserService{
                         """, code));
         mailSender.send(message);
    }
+
 }
