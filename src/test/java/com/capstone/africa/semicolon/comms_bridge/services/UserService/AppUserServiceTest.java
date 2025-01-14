@@ -31,8 +31,9 @@ class AppUserServiceTest {
 
     @BeforeEach
     public void setUp(){
-        appUserRepository.deleteAll();
+        userRepository.deleteAll();
     }
+
     @Test
     public void testThatAppUserCanRegister(){
         RegisterUserResponse response = registerUserRequest();
@@ -43,7 +44,7 @@ class AppUserServiceTest {
 
     private RegisterUserResponse registerUserRequest() {
         RegisterUserRequest request = new RegisterUserRequest();
-        request.setUserEmail("test@email.coms");
+        request.setUserEmail("songujack@gmail.com");
         request.setPassword("password123");
         request.setUserName("testedUsername");
         request.setPhoneNumber("08133608698");
@@ -54,11 +55,10 @@ class AppUserServiceTest {
     public void testThatUserCanRetrieveTheirPasswordWhenTheyForgetPassword(){
         registerUserRequest();
         ForgetPasswordRequest request = new ForgetPasswordRequest();
-        request.setEmail("test@email.com");
+        request.setEmail("songujack@gmail.com");
         ForgetPasswordResponse response = appUserService.resetPassword(request);
         assertThat(response).isNotNull();
         assertThat(response.getMessage()).contains("Enter the six-digit code that has been sent to you");
-        System.out.println(response.getCode());
         assertThat(response.getCode().length()).isEqualTo(6);
     }
 

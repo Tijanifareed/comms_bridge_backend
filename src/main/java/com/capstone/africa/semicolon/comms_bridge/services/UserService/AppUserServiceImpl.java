@@ -95,9 +95,11 @@ public class AppUserServiceImpl implements AppUserService{
     public ForgetPasswordResponse resetPassword(ForgetPasswordRequest request) {
         AppUser appUser = userRepository.findByUserEmail(request.getEmail());
         if(appUser==null) throw new CommsBridgeException("User Does not exist");
+        String code = generateCode();
+        sendEmailForOtpCode(request.getEmail(), code);
         ForgetPasswordResponse response = new ForgetPasswordResponse();
-        response.setMessage("Enter the code that has been sent to you");
-        response.setCode(generateCode());
+        response.setMessage("Enter the six-digit code that has been sent to you");
+        response.setCode(code);
         return response;
     }
 
