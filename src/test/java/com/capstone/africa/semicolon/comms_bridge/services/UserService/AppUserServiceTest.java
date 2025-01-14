@@ -2,8 +2,10 @@ package com.capstone.africa.semicolon.comms_bridge.services.UserService;
 
 import com.capstone.africa.semicolon.comms_bridge.dtos.requests.ForgetPasswordRequest;
 import com.capstone.africa.semicolon.comms_bridge.dtos.requests.RegisterUserRequest;
+import com.capstone.africa.semicolon.comms_bridge.dtos.requests.UpdatePasswordRequest;
 import com.capstone.africa.semicolon.comms_bridge.dtos.responses.ForgetPasswordResponse;
 import com.capstone.africa.semicolon.comms_bridge.dtos.responses.RegisterUserResponse;
+import com.capstone.africa.semicolon.comms_bridge.dtos.responses.UpdatePasswordResponse;
 import com.capstone.africa.semicolon.comms_bridge.repositories.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -60,6 +62,16 @@ class AppUserServiceTest {
         assertThat(response).isNotNull();
         assertThat(response.getMessage()).contains("Enter the six-digit code that has been sent to you");
         assertThat(response.getCode().length()).isEqualTo(6);
+    }
+    @Test
+    public void testThatUserCanUpdatePassword(){
+        RegisterUserResponse response1 = registerUserRequest();
+        UpdatePasswordRequest request = new UpdatePasswordRequest();
+        request.setId(response1.getUserId());
+        request.setNewPassword("password014704");
+        UpdatePasswordResponse response = appUserService.updatePassword(request);
+        assertThat(response).isNotNull();
+        assertThat(response.getMessage()).contains("Password updated successfully");
     }
 
 }

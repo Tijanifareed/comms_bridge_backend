@@ -5,8 +5,6 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class RegisterUserResponse {
-    private Long userId;
+public class UpdatePasswordResponse {
     private String message;
-
 }
